@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 // import { getAppInfo } from "../../api/admin";
 // import { useNotification } from "../../hooks";
 import AppInfoBox from "../AppInfoBox";
-// import LatestUploads from "../LatestUploads";
+import LatestUploads from "../LatestUploads";
 // import MostRatedMovies from "../MostRatedMovies";
 
 export default function Dashboard() {
@@ -30,19 +30,19 @@ export default function Dashboard() {
 		<div className="grid grid-cols-3 gap-5 p-5">
 			<AppInfoBox
 				title="Total Uploads"
-				// subTitle={appInfo.movieCount.toLocaleString()}
+				subTitle={100}
 			/>
 			<AppInfoBox
 				title="Total Reviews"
-				// subTitle={appInfo.reviewCount.toLocaleString()}
+				subTitle={100}
 			/>
 			<AppInfoBox
 				title="Total Users"
-				// subTitle={appInfo.userCount.toLocaleString()}
+				subTitle={100}
 			/>
 
-			{/* <LatestUploads />
-			<MostRatedMovies /> */}
+			<LatestUploads />
+			{/* <MostRatedMovies /> */}
 		</div>
 	);
 }
