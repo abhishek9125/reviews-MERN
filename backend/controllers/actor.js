@@ -117,3 +117,17 @@ exports.getSingleActor = async (req, res) => {
 
     return res.status(201).json({ actor: formatActor(actor) });
 }
+
+exports.getActors = async (req, res) => {
+
+    const { pageNo, limit } = req.params;
+
+    const actors = await Actor.find({})
+    .sort({ createdAt: -1 }) // Sort from Latest Created to Oldest
+    .skip(parseInt(pageNo) * parseInt(limit))
+    .limit(parseInt(limit))
+
+    const profiles = actors.map((actor) => formatActor(actor));
+
+    return res.status(201).json({ profiles });
+}
