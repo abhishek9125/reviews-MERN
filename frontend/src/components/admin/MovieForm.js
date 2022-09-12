@@ -33,7 +33,7 @@ const defaultMovieInfo = {
     status: "",
 };
 
-function MovieForm() {
+function MovieForm({ onSubmit }) {
 
     const [movieInfo, setMovieInfo] = useState({ ...defaultMovieInfo });
     const [showWritersModal, setShowWritersModal] = useState(false);
@@ -46,6 +46,42 @@ function MovieForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const { error } = validateMovie(movieInfo);
+
+        if (error) {
+            updateNotification('error', error);
+        }
+
+        const { tags, genres, cast, writers, director, poster } = movieInfo;
+
+        const formData = new FormData();
+        const finalMovieInfo = {
+            ...movieInfo
+        };
+
+        finalMovieInfo.tags = JSON.stringify(tags);
+        finalMovieInfo.genres = JSON.stringify(genres);
+
+        const finalCast = cast.map((c) => ({
+            actor: c.profile.id,
+            roleAs: c.roleAs,
+            leadActor: c.leadActor,
+        }));
+        
+        finalMovieInfo.cast = JSON.stringify(finalCast);
+
+        if (writers.length) {
+            const finalWriters = writers.map((w) => w.id);
+            finalMovieInfo.writers = JSON.stringify(finalWriters);
+        }
+
+        if (director.id) finalMovieInfo.director = director.id;
+        if (poster) finalMovieInfo.poster = poster;
+
+        for (let key in finalMovieInfo) {
+            formData.append(key, finalMovieInfo[key]);
+        }
+
+        onSubmit(movieInfo);
     }
 
     const { title, storyLine, writers, cast, tags, genres, type, language, status } = movieInfo;

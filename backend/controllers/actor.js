@@ -90,8 +90,9 @@ exports.removeActor = async (req, res) => {
 
 exports.searchActor = async (req, res) => {
     const { query } = req;
-    const actor = await Actor.find({ $text: { $search: `"${query.name}"` } });
-    return res.status(201).json({ actor: formatActor(actor) });
+    const result = await Actor.find({ $text: { $search: `"${query.name}"` } });
+    const actors = result.map((actor) => formatActor(actor));
+    return res.status(201).json({ results: actors });
 }
 
 exports.getLatestActors = async (req, res) => {
