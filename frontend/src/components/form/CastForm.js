@@ -1,143 +1,95 @@
-import React, { useState } from 'react';
-import LiveSearch from '../LiveSearch';
-import { commonInputClasses } from '../../utils/theme';
-import { useNotification } from '../../hooks';
-
-const results = [
-    {
-        id: 1,
-        avatar: './logo.png',
-        name: 'Snow'
-    },
-    {
-        id: 2,
-        avatar: './logo.png',
-        name: 'Snow'
-    },
-    {
-        id: 3,
-        avatar: './logo.png',
-        name: 'Snow'
-    },
-    {
-        id: 4,
-        avatar: './logo.png',
-        name: 'Snow'
-    },
-    {
-        id: 5,
-        avatar: './logo.png',
-        name: 'Snow'
-    },
-    {
-        id: 6,
-        avatar: './logo.png',
-        name: 'Snow'
-    },
-]
+import React, { useState } from "react";
+import { commonInputClasses } from "../../utils/theme";
+import LiveSearch from "../LiveSearch";
+import { useNotification, useSearch } from "../../hooks";
+import { renderItem } from "../../utils/helper";
+import { searchActor } from "../../api/actor";
 
 const defaultCastInfo = {
     profile: {},
-    roleAs: '',
-    leadActor: false
-}
-
-function CastForm({ onSubmit }) {
-
+    roleAs: "",
+    leadActor: false,
+};
+export default function CastForm({ onSubmit }) {
     const [castInfo, setCastInfo] = useState({ ...defaultCastInfo });
-
-    const { leadActor, profile, roleAs } = castInfo;
+    const [profiles, setProfiles] = useState([]);
 
     const { updateNotification } = useNotification();
+    const { handleSearch, resetSearch } = useSearch();
 
     const handleOnChange = ({ target }) => {
         const { checked, name, value } = target;
 
-        if(name === 'leadActor') {
+        if (name === "leadActor")
             return setCastInfo({ ...castInfo, leadActor: checked });
-        }
 
         setCastInfo({ ...castInfo, [name]: value });
-
-    }
+    };
 
     const handleProfileSelect = (profile) => {
         setCastInfo({ ...castInfo, profile });
-    }
+    };
 
     const handleSubmit = () => {
         const { profile, roleAs } = castInfo;
-
-        if(!profile.name) {
-            return updateNotification('error', 'Cast Profile is Missing..!!');
-        }
-
-        if(!roleAs) {
-            return updateNotification('error', 'Cast Role is Missing..!!');
-        }
+        if (!profile.name)
+            return updateNotification("error", "Cast profile is missing!");
+        if (!roleAs.trim())
+            return updateNotification("error", "Cast role is missing!");
 
         onSubmit(castInfo);
-        setCastInfo({ ...defaultCastInfo });
+        setCastInfo({ ...defaultCastInfo, profile: { name: "" } });
+        resetSearch();
+    };
 
-    }
+    const handleProfileChange = ({ target }) => {
+        const { value } = target;
+        const { profile } = castInfo;
+        profile.name = value;
+        setCastInfo({ ...castInfo, ...profile });
+        handleSearch(searchActor, value, setProfiles);
+    };
 
-    const renderItem = (result) => {
-        return (
-            <div key={result.id} className='flex space-x-2 rounded overflow-hidden'>
-                <img src={result.avatar} alt={result.name} className="w-16 h-16 object-cover" />
-                <p className='dark:text-white font-semibold'>{result.name}</p>
-            </div>
-        )
-    }
-
-
+    const { leadActor, profile, roleAs } = castInfo;
     return (
-        <div className='flex items-center space-x-2'>
-            <input 
+        <div className="flex items-center space-x-2">
+            <input
                 type="checkbox"
-                name='leadActor'
-                className='w-4 h-4'
+                name="leadActor"
+                className="w-4 h-4"
                 checked={leadActor}
                 onChange={handleOnChange}
-                title="Set as Lead Actor"
+                title="Set as lead actor"
             />
-
-            <LiveSearch 
-                name="cast"
+            <LiveSearch
+                placeholder="Search profile"
                 value={profile.name}
-                results={results}
-                renderItem={renderItem}
+                results={profiles}
                 onSelect={handleProfileSelect}
-                placeholder="Search Profile"
+                renderItem={renderItem}
+                onChange={handleProfileChange}
             />
-
-            <span className='dark:text-dark-subtle text-light-subtle font-semibold'>
+            <span className="dark:text-dark-subtle text-light-subtle font-semibold">
                 as
             </span>
 
-            <div className='flex-grow'>
-
-                <input 
+            <div className="flex-grow">
+                <input
                     type="text"
-                    name='roleAs'
+                    className={commonInputClasses + " rounded p-1 text-lg border-2"}
+                    placeholder="Role as"
+                    name="roleAs"
                     value={roleAs}
-                    placeholder="Role As"
                     onChange={handleOnChange}
-                    className={commonInputClasses + ' rounded p-1 text-lg border-2'}
                 />
-
             </div>
 
-            <button 
-                type='button'
+            <button
                 onClick={handleSubmit}
-                className='bg-secondary dark:bg-white dark:text-primary text-white px-1 rounded'
+                className="bg-secondary dark:bg-white dark:text-primary text-white px-1 rounded"
             >
                 Add
             </button>
-
         </div>
-    )
+    );
 }
-
-export default CastForm

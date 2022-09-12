@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import { commonInputClasses } from '../../utils/theme';
-import LiveSearch from '../LiveSearch';
 import TagsInput from '../TagsInput';
 import Submit from '../form/Submit';
 import { useNotification } from '../../hooks';
-import ModalContainer from '../modals/ModalContainer';
 import WritersModal from '../modals/WritersModal';
 import CastForm from '../form/CastForm';
 import CastModal from '../modals/CastModal';
@@ -13,39 +11,11 @@ import GenresSelector from '../GenresSelector';
 import GenresModal from '../modals/GenresModal';
 import Selector from '../Selector';
 import { typeOptions, languageOptions, statusOptions } from '../../utils/options';
-
-const results = [
-    {
-        id: 1,
-        avatar: './logo.png',
-        name: 'Snow'
-    },
-    {
-        id: 2,
-        avatar: './logo.png',
-        name: 'Snow'
-    },
-    {
-        id: 3,
-        avatar: './logo.png',
-        name: 'Snow'
-    },
-    {
-        id: 4,
-        avatar: './logo.png',
-        name: 'Snow'
-    },
-    {
-        id: 5,
-        avatar: './logo.png',
-        name: 'Snow'
-    },
-    {
-        id: 6,
-        avatar: './logo.png',
-        name: 'Snow'
-    },
-]
+import Label from '../Label';
+import DirectorSelector from '../DirectorSelector';
+import WriterSelector from '../WriterSelector';
+import ViewAllButton from '../ViewAllButton';
+import LabelWithBadge from '../LabelWithBadge';
 
 const defaultMovieInfo = {
     title: "",
@@ -77,21 +47,12 @@ function MovieForm() {
         e.preventDefault();
     }
 
-    const renderItem = (result) => {
-        return (
-            <div key={result.id} className='flex space-x-2 rounded overflow-hidden'>
-                <img src={result.avatar} alt={result.name} className="w-16 h-16 object-cover" />
-                <p className='dark:text-white font-semibold'>{result.name}</p>
-            </div>
-        )
-    }
-
-    const { title, storyLine, director, writers, cast, tags, genres, type, language, status } = movieInfo;
+    const { title, storyLine, writers, cast, tags, genres, type, language, status } = movieInfo;
 
     const handleChange = ({ target }) => {
         const { value, name, files } = target;
 
-        if(name === 'poster') {
+        if (name === 'poster') {
             const poster = files[0];
             updatePosterForUI(poster);
             return setMovieInfo({ ...movieInfo, poster });
@@ -131,7 +92,6 @@ function MovieForm() {
                 return updateNotification('warning', 'This profile is already selected.');
             }
         }
-
         setMovieInfo({ ...movieInfo, writers: [...writers, profile] });
     }
 
@@ -211,29 +171,15 @@ function MovieForm() {
                         <Label htmlFor="tags">Tags</Label>
                         <TagsInput name="tags" onChange={updateTags} value={tags} />
                     </div>
-                    <div>
-                        <Label htmlFor="director">Director</Label>
-                        <LiveSearch
-                            name="director"
-                            value={director.name}
-                            results={results}
-                            renderItem={renderItem}
-                            onSelect={updateDirector}
-                            placeholder="Search Profile"
-                        />
-                    </div>
+
+                    <DirectorSelector onSelect={updateDirector} />
+
                     <div>
                         <div className='flex justify-between'>
                             <LabelWithBadge badge={writers.length} htmlFor="writers">Writers</LabelWithBadge>
                             <ViewAllButton visible={writers.length} onClick={displayWritersModal}>View All</ViewAllButton>
                         </div>
-                        <LiveSearch
-                            name="writers"
-                            results={results}
-                            renderItem={renderItem}
-                            onSelect={updateWriters}
-                            placeholder="Search Profile"
-                        />
+                        <WriterSelector onSelect={updateWriters} />
                     </div>
 
                     <div>
@@ -254,7 +200,7 @@ function MovieForm() {
                         />
                     </div>
 
-                    <input 
+                    <input
                         type="date"
                         name='releaseDate'
                         onChange={handleChange}
@@ -264,31 +210,31 @@ function MovieForm() {
                     <Submit value="Upload" onClick={handleSubmit} />
                 </div>
                 <div className='w-[30%] space-y-5'>
-                    <PosterSelector 
+                    <PosterSelector
                         name="poster"
                         onChange={handleChange}
                         selectedPoster={selectedPosterForUI}
                         accept="image/jpg, image/jpeg, image/png"
                     />
-                    <GenresSelector 
+                    <GenresSelector
                         badge={genres.length}
                         onClick={displayGenresModal}
                     />
-                    <Selector 
-                        name="type"                       
-                        label="Type" 
+                    <Selector
+                        name="type"
+                        label="Type"
                         value={type}
                         options={typeOptions}
                         onChange={handleChange}
                     />
-                    <Selector 
+                    <Selector
                         name="language"
                         label="Language"
                         value={language}
                         options={languageOptions}
                         onChange={handleChange}
                     />
-                    <Selector 
+                    <Selector
                         name="status"
                         label="Status"
                         value={status}
@@ -309,7 +255,7 @@ function MovieForm() {
                 onClose={hideCastModal}
                 onRemoveClick={handleCastRemove}
             />
-            <GenresModal 
+            <GenresModal
                 onSubmit={updateGenres}
                 visible={showGenresModal}
                 onClose={hideGenresModal}
@@ -320,45 +266,4 @@ function MovieForm() {
     )
 }
 
-export default MovieForm
-
-const Label = ({ children, htmlFor }) => {
-    return (
-        <label htmlFor={htmlFor} className='dark:text-dark-subtle text-light-subtle font-semibold'>
-            {children}
-        </label>
-    )
-}
-
-const LabelWithBadge = ({ children, htmlFor, badge = 0 }) => {
-
-    const renderBadge = () => {
-        return (
-            <span className='dark:bg-dark-subtle bg-light-subtle translate-x-6 text-xs text-white absolute top-0 right-0 w-5 h-5 rounded-full flex justify-center items-center'>
-                {badge <= 9 ? badge : '9+'}
-            </span>
-        )
-    }
-
-    return (
-        <div className='relative'>
-            <Label htmlFor={htmlFor}>
-                {children}
-            </Label>
-            {renderBadge()}
-        </div>
-    )
-}
-
-const ViewAllButton = ({ visible, children, onClick }) => {
-    return visible ?
-        <button
-            type='button'
-            onClick={onClick}
-            className='dark:text-white text-primary hover:underline transition'
-        >
-            {children}
-        </button>
-        :
-        null
-}
+export default MovieForm;

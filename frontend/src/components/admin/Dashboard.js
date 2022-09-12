@@ -1,10 +1,15 @@
-import React from 'react'
-import MovieUpload from './MovieUpload'
+import React from 'react';
+import MovieUpload from './MovieUpload';
+
+
 
 function Dashboard() {
-  return (
-	<div></div>
-  )
+
+	return (
+		<div className='p-14'>
+
+		</div>
+	)
 }
 
 export default Dashboard

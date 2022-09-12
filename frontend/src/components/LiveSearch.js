@@ -65,9 +65,14 @@ function LiveSearch({ value = "", onChange = null, name, placeholder = "", resul
     }
 
     useEffect(() => {
-        if(value) {
-            setDefaultValue(value)
-        }
+        if(results.length) {
+            return setDisplaySearch(true);
+        } 
+        setDisplaySearch(false);
+    }, [results.length])
+
+    useEffect(() => {
+        setDefaultValue(value)
     }, [value])
 
     return (
