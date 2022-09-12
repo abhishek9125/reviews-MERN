@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FileUploader } from "react-drag-drop-files";
 import { AiOutlineCloudUpload } from 'react-icons/ai';
-import { uploadTrailer } from '../../api/movie';
+import { uploadMovie, uploadTrailer } from '../../api/movie';
 import { useNotification } from '../../hooks';
 import ModalContainer from '../modals/ModalContainer';
 import MovieForm from './MovieForm';
@@ -12,7 +12,6 @@ function MovieUpload({ visible, onClose }) {
     const [uploadProgress, setUploadProgress] = useState(0);
     const [videoUploaded, setVideoUploaded] = useState(0);
     const [videoInfo, setVideoInfo] = useState({});
-    const [movieInfo, setMovieInfo] = useState();
     const { updateNotification } = useNotification();
 
     const handleTypeError = (error) => {
@@ -20,9 +19,8 @@ function MovieUpload({ visible, onClose }) {
     }
 
     const handleUploadTrailer = async (data) => {
-        setVideoSelected(true);
         const { error, url, public_id } = await uploadTrailer(data, setUploadProgress);
-        if(error) {
+        if (error) {
             return updateNotification('error', error);
         }
         setVideoUploaded(true);
@@ -32,38 +30,53 @@ function MovieUpload({ visible, onClose }) {
     const handleChange = (file) => {
         const formData = new FormData();
         formData.append('video', file);
+        setVideoSelected(true);
+
         handleUploadTrailer(formData);
     }
 
     const getUploadProgressValue = () => {
-        if(!videoUploaded && uploadProgress >= 100) {
+        if (!videoUploaded && uploadProgress >= 100) {
             return 'Processing the Movie';
         }
 
-        if(videoUploaded) {
+        if (videoUploaded) {
             return 'Movie Uploaded Successfully'
         }
 
         return `Upload Progress -- ${uploadProgress}%`;
     }
 
-    const handleSubmit = (movieInfo) => {
-        console.log('movieInfo', movieInfo)
+    const handleSubmit = async (data) => {
+
+        if (!videoInfo.url || !videoInfo.public_id) {
+            return updateNotification('error', 'Trailer is Missing');
+        }
+
+        data.append('trailer', JSON.stringify(videoInfo));
+        const res = await uploadMovie(data);
+        console.log('res', res)
     }
 
     return (
         <ModalContainer visible={visible}>
-                {/* <UploadProgress 
-                    visible={videoSelected && !videoUploaded}
-                    width={uploadProgress} 
-                    message={getUploadProgressValue()} 
-                />
-                <TrailerSelector
-                    visible={!videoSelected}
-                    handleChange={handleChange}
-                    onTypeError={handleTypeError}
-                /> */}
-                <MovieForm onSubmit={handleSubmit} />
+            <UploadProgress
+                visible={videoSelected && !videoUploaded}
+                width={uploadProgress}
+                message={getUploadProgressValue()}
+            />
+            {
+                !videoSelected ?
+                    <>
+                        <TrailerSelector
+                            visible={!videoSelected}
+                            handleChange={handleChange}
+                            onTypeError={handleTypeError}
+                        />
+                    </>
+                    :
+                    <MovieForm onSubmit={handleSubmit} />
+            }
         </ModalContainer>
     )
 
@@ -93,7 +106,7 @@ const TrailerSelector = ({ visible, handleChange, onTypeError }) => {
 
 const UploadProgress = ({ width, message, visible }) => {
 
-    if(!visible) {
+    if (!visible) {
         return null;
     }
 

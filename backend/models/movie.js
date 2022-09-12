@@ -17,7 +17,7 @@ const movieSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Actor",
         },
-        releseDate: {
+        releaseDate: {
             type: Date,
             required: true,
         },

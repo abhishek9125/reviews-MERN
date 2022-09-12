@@ -10,9 +10,16 @@ exports.uploadTrailer = async (req, res) => {
         return sendError(res, 'Video File is Missing');
     }
 
-    const { secure_url: url, public_id } = await cloudinary.uploader.upload(file.path, { resource_type: 'video' });
+    try {
+        console.log('file.path', file)
+        const { secure_url: url, public_id } = await cloudinary.uploader.upload(file.path, { resource_type: "video" });
+        return res.status(201).json({ url, public_id });
+    
+    } catch (error) {
+        console.log('error', error)
+        return res.status(400).json({ error });
+    } 
 
-    return res.status(201).json({ url, public_id });
 }
 
 exports.createMovie = async (req, res) => {

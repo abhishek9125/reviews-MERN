@@ -25,7 +25,7 @@ const defaultMovieInfo = {
     cast: [],
     director: {},
     writers: [],
-    releseDate: "",
+    releaseDate: "",
     poster: null,
     genres: [],
     type: "",
@@ -66,7 +66,7 @@ function MovieForm({ onSubmit }) {
             roleAs: c.roleAs,
             leadActor: c.leadActor,
         }));
-        
+
         finalMovieInfo.cast = JSON.stringify(finalCast);
 
         if (writers.length) {
@@ -81,7 +81,7 @@ function MovieForm({ onSubmit }) {
             formData.append(key, finalMovieInfo[key]);
         }
 
-        onSubmit(movieInfo);
+        onSubmit(formData);
     }
 
     const { title, storyLine, writers, cast, tags, genres, type, language, status } = movieInfo;
