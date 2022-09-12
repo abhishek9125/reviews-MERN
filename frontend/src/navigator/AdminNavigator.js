@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-// import Actors from '../components/admin/Actors';
+import Actors from '../components/admin/Actors';
 import Dashboard from '../components/admin/Dashboard';
 import Header from '../components/admin/Header';
 import Movies from '../components/admin/Movies';
@@ -39,7 +39,7 @@ function AdminNavigator() {
 					<Routes>
 						<Route path='/' element={<Dashboard />} />
 						<Route path='/movies' element={<Movies />} />
-						{/* <Route path='/actors' element={<Actors />} /> */}
+						<Route path='/actors' element={<Actors />} />
 						<Route path='*' element={<NotFound />} />
 					</Routes>
 				</div>

@@ -4,7 +4,7 @@ import { deleteActor, getActors, searchActor } from "../../api/actor";
 import { useNotification, useSearch } from "../../hooks";
 import AppSearchForm from "../form/AppSearchForm";
 import ConfirmModal from "../models/ConfirmModal";
-import UpdateActor from "../models/UpdateActor";
+import UpdateActor from "../modals/UpdateActor";
 import NextAndPrevButton from "../NextAndPrevButton";
 import NotFoundText from "../NotFoundText";
 

@@ -14,11 +14,11 @@ exports.uploadTrailer = async (req, res) => {
         console.log('file.path', file)
         const { secure_url: url, public_id } = await cloudinary.uploader.upload(file.path, { resource_type: "video" });
         return res.status(201).json({ url, public_id });
-    
+
     } catch (error) {
         console.log('error', error)
         return res.status(400).json({ error });
-    } 
+    }
 
 }
 
@@ -260,3 +260,23 @@ exports.removeMovie = async (req, res) => {
 
     res.json({ message: "Movie removed successfully." });
 }
+
+exports.getMovies = async (req, res) => {
+    const { pageNo = 0, limit = 10 } = req.query;
+
+    const movies = await Movie.find({})
+        .sort({ createdAt: -1 })
+        .skip(parseInt(pageNo) * parseInt(limit))
+        .limit(parseInt(limit));
+
+    const results = movies.map((movie) => ({
+        id: movie._id,
+        title: movie.title,
+        poster: movie.poster?.url,
+        responsivePosters: movie.poster?.responsive,
+        genres: movie.genres,
+        status: movie.status,
+    }));
+
+    res.json({ movies: results });
+};
