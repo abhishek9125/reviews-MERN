@@ -16,6 +16,7 @@ import DirectorSelector from '../DirectorSelector';
 import WriterSelector from '../WriterSelector';
 import ViewAllButton from '../ViewAllButton';
 import LabelWithBadge from '../LabelWithBadge';
+import { validateMovie } from '../../utils/validator';
 
 const defaultMovieInfo = {
     title: "",
@@ -32,7 +33,6 @@ const defaultMovieInfo = {
     status: "",
 };
 
-
 function MovieForm() {
 
     const [movieInfo, setMovieInfo] = useState({ ...defaultMovieInfo });
@@ -45,6 +45,7 @@ function MovieForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const { error } = validateMovie(movieInfo);
     }
 
     const { title, storyLine, writers, cast, tags, genres, type, language, status } = movieInfo;
