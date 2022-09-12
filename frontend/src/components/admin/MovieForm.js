@@ -33,7 +33,7 @@ const defaultMovieInfo = {
     status: "",
 };
 
-function MovieForm({ onSubmit }) {
+function MovieForm({ onSubmit, busy }) {
 
     const [movieInfo, setMovieInfo] = useState({ ...defaultMovieInfo });
     const [showWritersModal, setShowWritersModal] = useState(false);
@@ -244,7 +244,7 @@ function MovieForm({ onSubmit }) {
                         className={commonInputClasses + " border-2 rounded p-1 w-auto"}
                     />
 
-                    <Submit value="Upload" onClick={handleSubmit} />
+                    <Submit busy={busy} value="Upload" onClick={handleSubmit} />
                 </div>
                 <div className='w-[30%] space-y-5'>
                     <PosterSelector
