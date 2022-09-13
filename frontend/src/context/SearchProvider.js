@@ -31,9 +31,12 @@ function SearchProvider({ children }) {
         if(error) return updateNotification('error', error);
 
         if(!results.length) {
+            setResults([]);
+            updaterFun && updaterFun([]);
             return setResultNotFound(true);
         }
 
+        setResultNotFound(false);
         setResults(results);
         updaterFun && updaterFun([...results]);
     }
@@ -45,7 +48,7 @@ function SearchProvider({ children }) {
 
         if(!query.trim()) {
             updaterFun && updaterFun([]);
-            resetSearch();
+            return resetSearch();
         }
         debounceFunc(method, query, updaterFun);
     }

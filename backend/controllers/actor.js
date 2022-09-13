@@ -89,8 +89,14 @@ exports.removeActor = async (req, res) => {
 }
 
 exports.searchActor = async (req, res) => {
-    const { query } = req;
-    const result = await Actor.find({ $text: { $search: `"${query.name}"` } });
+    const { name } = req.query;
+
+    if(!name) {
+        return sendError((res, 'Search String is Empty'));
+    }
+
+    // const result = await Actor.find({ $text: { $search: `"${query.name}"` } });
+    const result = await Actor.find({ name: { $regex: name, $options: "i" } });
     const actors = result.map((actor) => formatActor(actor));
     return res.status(201).json({ results: actors });
 }
@@ -120,8 +126,7 @@ exports.getSingleActor = async (req, res) => {
 
 exports.getActors = async (req, res) => {
 
-    const { pageNo, limit } = req.params;
-
+    const { pageNo, limit } = req.query;
     const actors = await Actor.find({})
     .sort({ createdAt: -1 }) // Sort from Latest Created to Oldest
     .skip(parseInt(pageNo) * parseInt(limit))

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {
-  deleteMovie,
-  getMovieForUpdate,
-  getMovies,
-  updateMovie,
-} from "../../api/movie";
+// import {
+//   deleteMovie,
+//   getMovieForUpdate,
+//   getMovies,
+//   updateMovie,
+// } from "../../api/movie";
 import { useMovies, useNotification } from "../../hooks";
-import ConfirmModal from "../models/ConfirmModal";
-import UpdateMovie from "../models/UpdateMovie";
+// import ConfirmModal from "../models/ConfirmModal";
+// import UpdateMovie from "../models/UpdateMovie";
 import MovieListItem from "../MovieListItem";
 import NextAndPrevButton from "../NextAndPrevButton";
 

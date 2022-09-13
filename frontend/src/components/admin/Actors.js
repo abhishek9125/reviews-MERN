@@ -3,7 +3,7 @@ import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import { deleteActor, getActors, searchActor } from "../../api/actor";
 import { useNotification, useSearch } from "../../hooks";
 import AppSearchForm from "../form/AppSearchForm";
-import ConfirmModal from "../models/ConfirmModal";
+import ConfirmModal from "../modals/ConfirmModal";
 import UpdateActor from "../modals/UpdateActor";
 import NextAndPrevButton from "../NextAndPrevButton";
 import NotFoundText from "../NotFoundText";
@@ -110,6 +110,7 @@ export default function Actors() {
 						showResetIcon={results.length || resultNotFound}
 					/>
 				</div>
+				
 				<NotFoundText visible={resultNotFound} text="Record not found" />
 
 				<div className="grid grid-cols-4 gap-5">
