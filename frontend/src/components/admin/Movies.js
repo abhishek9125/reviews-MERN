@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-// import {
-//   deleteMovie,
-//   getMovieForUpdate,
-//   getMovies,
-//   updateMovie,
-// } from "../../api/movie";
+import {
+  deleteMovie,
+  getMovieForUpdate,
+  getMovies,
+  updateMovie,
+} from "../../api/movie";
 import { useMovies, useNotification } from "../../hooks";
-// import ConfirmModal from "../models/ConfirmModal";
-// import UpdateMovie from "../models/UpdateMovie";
+import ConfirmModal from "../modals/ConfirmModal";
+import UpdateMovie from "../modals/UpdateMovie";
 import MovieListItem from "../MovieListItem";
 import NextAndPrevButton from "../NextAndPrevButton";
 
@@ -24,73 +24,73 @@ export default function Movies() {
 
   const { updateNotification } = useNotification();
   const {
-    fetchMovies,
+    // fetchMovies,
     movies: newMovies,
     fetchPrevPage,
     fetchNextPage,
   } = useMovies();
 
-  // const fetchMovies = async (pageNo) => {
-  //   const { error, movies } = await getMovies(pageNo, limit);
-  //   if (error) updateNotification("error", error);
+  const fetchMovies = async (pageNo) => {
+    const { error, movies } = await getMovies(pageNo, limit);
+    if (error) updateNotification("error", error);
 
-  //   if (!movies.length) {
-  //     currentPageNo = pageNo - 1;
-  //     return setReachedToEnd(true);
-  //   }
+    if (!movies.length) {
+      currentPageNo = pageNo - 1;
+      return setReachedToEnd(true);
+    }
 
-  //   setMovies([...movies]);
-  // };
+    setMovies([...movies]);
+  };
 
-  // const handleOnNextClick = () => {
-  //   if (reachedToEnd) return;
-  //   currentPageNo += 1;
-  //   fetchMovies(currentPageNo);
-  // };
+  const handleOnNextClick = () => {
+    if (reachedToEnd) return;
+    currentPageNo += 1;
+    fetchMovies(currentPageNo);
+  };
 
-  // const handleOnPrevClick = () => {
-  //   if (currentPageNo <= 0) return;
-  //   if (reachedToEnd) setReachedToEnd(false);
+  const handleOnPrevClick = () => {
+    if (currentPageNo <= 0) return;
+    if (reachedToEnd) setReachedToEnd(false);
 
-  //   currentPageNo -= 1;
-  //   fetchMovies(currentPageNo);
-  // };
+    currentPageNo -= 1;
+    fetchMovies(currentPageNo);
+  };
 
-  // const handleOnEditClick = async ({ id }) => {
-  //   const { movie, error } = await getMovieForUpdate(id);
-  //   if (error) return updateNotification("error", error);
-  //   setSelectedMovie(movie);
-  //   setShowUpdateModal(true);
-  // };
+  const handleOnEditClick = async ({ id }) => {
+    const { movie, error } = await getMovieForUpdate(id);
+    if (error) return updateNotification("error", error);
+    setSelectedMovie(movie);
+    setShowUpdateModal(true);
+  };
 
-  // const handleOnDeleteClick = (movie) => {
-  //   setSelectedMovie(movie);
-  //   setShowConfirmModal(true);
-  // };
+  const handleOnDeleteClick = (movie) => {
+    setSelectedMovie(movie);
+    setShowConfirmModal(true);
+  };
 
-  // const handleOnDeleteConfirm = async () => {
-  //   setBusy(true);
-  //   const { error, message } = await deleteMovie(selectedMovie.id);
-  //   setBusy(false);
+  const handleOnDeleteConfirm = async () => {
+    setBusy(true);
+    const { error, message } = await deleteMovie(selectedMovie.id);
+    setBusy(false);
 
-  //   if (error) return updateNotification("error", error);
+    if (error) return updateNotification("error", error);
 
-  //   updateNotification("success", message);
-  //   hideConfirmModal();
-  //   fetchMovies(currentPageNo);
-  // };
+    updateNotification("success", message);
+    hideConfirmModal();
+    fetchMovies(currentPageNo);
+  };
 
-  // const handleOnUpdate = (movie) => {
-  //   const updatedMovies = movies.map((m) => {
-  //     if (m.id === movie.id) return movie;
-  //     return m;
-  //   });
+  const handleOnUpdate = (movie) => {
+    const updatedMovies = movies.map((m) => {
+      if (m.id === movie.id) return movie;
+      return m;
+    });
 
-  //   setMovies([...updatedMovies]);
-  // };
+    setMovies([...updatedMovies]);
+  };
 
-  // const hideUpdateForm = () => setShowUpdateModal(false);
-  // const hideConfirmModal = () => setShowConfirmModal(false);
+  const hideUpdateForm = () => setShowUpdateModal(false);
+  const hideConfirmModal = () => setShowConfirmModal(false);
 
   const handleUIUpdate = () => {
     fetchMovies();
@@ -123,7 +123,7 @@ export default function Movies() {
         />
       </div>
 
-      {/* <ConfirmModal
+      <ConfirmModal
         visible={showConfirmModal}
         onCancel={hideConfirmModal}
         onConfirm={handleOnDeleteConfirm}
@@ -137,7 +137,7 @@ export default function Movies() {
         initialState={selectedMovie}
         onSuccess={handleOnUpdate}
         onClose={hideUpdateForm}
-      /> */}
+      />
     </>
   );
 }
