@@ -12,13 +12,14 @@ function Header({ onAddActorClick, onAddMovieClick }) {
 
 	const { toggleTheme } = useTheme();
 	const navigate = useNavigate();
+	
 	const options = [
 		{ title: 'Add Movie', onClick: onAddMovieClick },
 		{ title: 'Add Actor', onClick: onAddActorClick }
 	];
 
 	const handleSearchSubmit = (query) => {
-		if (!query.trim()) return;
+		if (!query?.trim()) return;
 	
 		navigate("/search?title=" + query);
 	};

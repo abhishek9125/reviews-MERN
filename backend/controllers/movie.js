@@ -166,15 +166,15 @@ exports.updateMovie = async (req, res) => {
 
     await movie.save();
 
-    res.json({ 
-        message: "Movie is updated", 
-        movie : {
+    res.json({
+        message: "Movie is updated",
+        movie: {
             id: movie._id,
             title: movie.title,
             poster: movie.poster?.url,
             genres: movie.genres,
             status: movie.status,
-        } 
+        }
     });
 }
 
@@ -268,5 +268,26 @@ exports.getMovieForUpdate = async (req, res) => {
                 };
             }),
         },
+    });
+}
+
+exports.searchMovies = async (req, res) => {
+
+    const { title } = req.query;
+
+    if (!title.trim()) return sendError(res, "Invalid request!");
+
+    const movies = await Movie.find({ title: { $regex: title, $options: "i" } });
+
+    res.json({
+        results: movies.map((m) => {
+            return {
+                id: m._id,
+                title: m.title,
+                poster: m.poster?.url,
+                genres: m.genres,
+                status: m.status,
+            };
+        }),
     });
 }
