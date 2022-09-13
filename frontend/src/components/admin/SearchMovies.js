@@ -33,7 +33,6 @@ export default function SearchMovies() {
     };
 
     const handleAfterUpdate = (movie) => {
-        console.log("run");
         const updatedMovies = movies.map((m) => {
             if (m.id === movie.id) return movie;
             return m;

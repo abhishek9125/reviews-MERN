@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
+import { MovieContext } from "../context/MovieProvider";
 import { NotificationContext } from "../context/NotificationProvider";
 import { SearchContext } from "../context/SearchProvider";
 import { ThemeContext } from "../context/ThemeProvider";
@@ -18,4 +19,8 @@ export const useAuth = () => {
 
 export const useSearch = () => {
     return useContext(SearchContext);
+}
+
+export const useMovies = () => {
+    return useContext(MovieContext);
 }

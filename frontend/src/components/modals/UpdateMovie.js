@@ -4,7 +4,7 @@ import { useNotification } from "../../hooks";
 import MovieForm from "../admin/MovieForm";
 import ModalContainer from "./ModalContainer";
 
-export default function UpdateMovie({ movieId, visible, onSuccess, onClose }) {
+export default function UpdateMovie({ movieId, visible, onSuccess }) {
     const [busy, setBusy] = useState(false);
     const [ready, setReady] = useState(false);
     const [selectedMovie, setSelectedMovie] = useState(false);
@@ -18,7 +18,6 @@ export default function UpdateMovie({ movieId, visible, onSuccess, onClose }) {
 
         updateNotification("success", message);
         onSuccess(movie);
-        onClose();
     };
 
     const fetchMovieToUpdate = async () => {

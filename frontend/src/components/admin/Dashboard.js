@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 // import { getAppInfo } from "../../api/admin";
 // import { useNotification } from "../../hooks";
 import AppInfoBox from "../AppInfoBox";
-// import LatestUploads from "../LatestUploads";
+import LatestUploads from "../LatestUploads";
 // import MostRatedMovies from "../MostRatedMovies";
 
 export default function Dashboard() {
@@ -41,7 +41,7 @@ export default function Dashboard() {
 				subTitle={100}
 			/>
 
-			{/* <LatestUploads /> */}
+			<LatestUploads />
 			{/* <MostRatedMovies /> */}
 		</div>
 	);
