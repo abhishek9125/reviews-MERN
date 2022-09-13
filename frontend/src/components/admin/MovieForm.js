@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { commonInputClasses } from '../../utils/theme';
 import TagsInput from '../TagsInput';
 import Submit from '../form/Submit';
@@ -33,7 +33,7 @@ const defaultMovieInfo = {
     status: "",
 };
 
-function MovieForm({ onSubmit, busy }) {
+function MovieForm({ onSubmit, btnTitle, busy, initialState }) {
 
     const [movieInfo, setMovieInfo] = useState({ ...defaultMovieInfo });
     const [showWritersModal, setShowWritersModal] = useState(false);
@@ -84,7 +84,7 @@ function MovieForm({ onSubmit, busy }) {
         onSubmit(formData);
     }
 
-    const { title, storyLine, writers, cast, tags, genres, type, language, status } = movieInfo;
+    const { title, storyLine, writers, cast, tags, genres, type, language, status, releaseDate } = movieInfo;
 
     const handleChange = ({ target }) => {
         const { value, name, files } = target;
@@ -174,6 +174,19 @@ function MovieForm({ onSubmit, busy }) {
         setMovieInfo({ ...movieInfo, cast: [...newCast] });
     }
 
+    useEffect(() => {
+
+        if (initialState) {
+            setMovieInfo({
+                ...initialState,
+                releaseDate: initialState.releaseDate.split("T")[0],
+                poster: null,
+            });
+            setSelectedPosterForUI(initialState.poster);
+        }
+
+    }, [initialState])
+
     return (
         <>
             <div className='flex space-x-3'>
@@ -240,11 +253,12 @@ function MovieForm({ onSubmit, busy }) {
                     <input
                         type="date"
                         name='releaseDate'
+                        value={releaseDate}
                         onChange={handleChange}
                         className={commonInputClasses + " border-2 rounded p-1 w-auto"}
                     />
 
-                    <Submit busy={busy} value="Upload" onClick={handleSubmit} />
+                    <Submit busy={busy} value={btnTitle} onClick={handleSubmit} type="button" />
                 </div>
                 <div className='w-[30%] space-y-5'>
                     <PosterSelector

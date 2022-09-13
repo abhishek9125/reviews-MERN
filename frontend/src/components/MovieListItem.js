@@ -3,8 +3,8 @@ import { BsTrash, BsPencilSquare, BsBoxArrowUpRight } from "react-icons/bs";
 import { deleteMovie } from "../api/movie";
 import { useNotification } from "../hooks";
 import { getPoster } from "../utils/helper";
-import ConfirmModal from "./models/ConfirmModal";
-import UpdateMovie from "./models/UpdateMovie";
+import ConfirmModal from "./modals/ConfirmModal";
+import UpdateMovie from "./modals/UpdateMovie";
 
 const MovieListItem = ({ movie, afterDelete, afterUpdate }) => {
 	const [showConfirmModal, setShowConfirmModal] = useState(false);

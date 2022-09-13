@@ -1,4 +1,4 @@
-const { sendError } = require("../utils/helper");
+const { sendError, formatActor } = require("../utils/helper");
 const cloudinary = require('../cloud');
 const Movie = require('../models/movie');
 const { isValidObjectId } = require("mongoose");
@@ -83,54 +83,6 @@ exports.createMovie = async (req, res) => {
     });
 }
 
-exports.updateMovieWithoutPoster = async (req, res) => {
-
-    const { movieId } = req.params;
-
-    if (!isValidObjectId(movieId)) {
-        return sendError(res, 'Invalid Movie ID');
-    }
-
-    const movie = await Movie.findById(movieId);
-
-    if (!movie) {
-        return sendError(res, 'Movie Not Found', 404);
-    }
-
-    const { title, storyLine, director, releaseDate, status, type, genres, tags, cast, writers, trailer, language } = req.body;
-
-    movie.title = title;
-    movie.storyLine = storyLine;
-    movie.tags = tags;
-    movie.releaseDate = releaseDate;
-    movie.status = status;
-    movie.type = type;
-    movie.genres = genres;
-    movie.cast = cast;
-    movie.trailer = trailer;
-    movie.language = language;
-
-    if (director) {
-        if (!isValidObjectId(director)) {
-            return sendError(res, 'Invalid Director ID');
-        }
-        movie.director = director;
-    }
-
-    if (writers) {
-        for (let writerId of writers) {
-            if (!isValidObjectId(writerId)) {
-                return sendError(res, 'Invalid Writer ID');
-            }
-        }
-        movie.writers = writers;
-    }
-
-    await movie.save();
-
-    res.json({ message: "Movie is updated", movie });
-}
-
 exports.updateMovie = async (req, res) => {
 
     const { file } = req;
@@ -140,17 +92,13 @@ exports.updateMovie = async (req, res) => {
         return sendError(res, 'Invalid Movie ID');
     }
 
-    if (!file) {
-        return sendError(res, 'Movie Poster is Missing');
-    }
-
     const movie = await Movie.findById(movieId);
 
     if (!movie) {
         return sendError(res, 'Movie Not Found', 404);
     }
 
-    const { title, storyLine, director, releaseDate, status, type, genres, tags, cast, writers, trailer, language } = req.body;
+    const { title, storyLine, director, releaseDate, status, type, genres, tags, cast, writers, language } = req.body;
 
     movie.title = title;
     movie.storyLine = storyLine;
@@ -160,7 +108,6 @@ exports.updateMovie = async (req, res) => {
     movie.type = type;
     movie.genres = genres;
     movie.cast = cast;
-    movie.trailer = trailer;
     movie.language = language;
 
     if (director) {
@@ -219,7 +166,16 @@ exports.updateMovie = async (req, res) => {
 
     await movie.save();
 
-    res.json({ message: "Movie is updated", movie });
+    res.json({ 
+        message: "Movie is updated", 
+        movie : {
+            id: movie._id,
+            title: movie.title,
+            poster: movie.poster?.url,
+            genres: movie.genres,
+            status: movie.status,
+        } 
+    });
 }
 
 exports.removeMovie = async (req, res) => {
@@ -295,7 +251,7 @@ exports.getMovieForUpdate = async (req, res) => {
             title: movie.title,
             storyLine: movie.storyLine,
             poster: movie.poster?.url,
-            releseDate: movie.releseDate,
+            releaseDate: movie.releaseDate,
             status: movie.status,
             type: movie.type,
             language: movie.language,
