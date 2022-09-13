@@ -30,14 +30,6 @@ exports.actorInfoValidator = [
     check("gender").trim().not().isEmpty().withMessage('Gender is Required'),
 ];
 
-exports.validate = (req, res, next) => {
-    const error = validationResult(req).array();
-    if (error.length) {
-        return res.json({ error: error[0].msg })
-    }
-    next();
-}
-
 exports.validateMovie = [
     check('title').trim().not().isEmpty().withMessage('Movie Title is Missing'),
     check('storyLine').trim().not().isEmpty().withMessage('Storyline is Missing'),
@@ -104,3 +96,16 @@ exports.validateTrailer = check("trailer")
             throw Error("Trailer URL is invalid!");
         }
     });
+
+exports.validateRatings = check(
+    "rating",
+    "Rating must be a number between 0 and 10."
+).isFloat({ min: 0, max: 10 });
+
+exports.validate = (req, res, next) => {
+    const error = validationResult(req).array();
+    if (error.length) {
+        return res.json({ error: error[0].msg })
+    }
+    next();
+}
