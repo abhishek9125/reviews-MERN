@@ -6,7 +6,7 @@ import { convertReviewCount } from "../../utils/helper";
 import Container from "../Container";
 import CustomButtonLink from "../CustomButtonLink";
 import AddRatingModal from "../modals/AddRatingModal";
-// import ProfileModal from "../modals/ProfileModal";
+import ProfileModal from "../modals/ProfileModal";
 import RatingStar from "../RatingStar";
 import RelatedMovies from "../RelatedMovies";
 
@@ -163,12 +163,12 @@ export default function SingleMovie() {
 					<RelatedMovies movieId={movieId} />
 				</div>
 			</Container>
-{/* 
+
 			<ProfileModal
 				visible={showProfileModal}
 				onClose={hideProfileModal}
 				profileId={selectedProfile.id}
-			/> */}
+			/>
 
 			<AddRatingModal
 				visible={showRatingModal}
