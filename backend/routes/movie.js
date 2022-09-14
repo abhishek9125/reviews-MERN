@@ -1,5 +1,5 @@
 const express = require("express");
-const { uploadTrailer, createMovie, updateMovie, removeMovie, getMovies, getMovieForUpdate, searchMovies } = require("../controllers/movie");
+const { uploadTrailer, createMovie, updateMovie, removeMovie, getMovies, getMovieForUpdate, searchMovies, getLatestUploads, getSingleMovie, getRelatedMovies, getTopRatedMovies, searchPublicMovies } = require("../controllers/movie");
 const { isAuth, isAdmin } = require("../middlewares/auth");
 const { uploadVideo, uploadImage } = require("../middlewares/multer");
 const { validateMovie, validate, validateTrailer } = require("../middlewares/validator");
@@ -14,5 +14,11 @@ router.delete("/:movieId", isAuth, isAdmin, removeMovie);
 router.get("/movies", isAuth, isAdmin, getMovies);
 router.get("/for-update/:movieId", isAuth, isAdmin, getMovieForUpdate);
 router.get('/search', isAuth, isAdmin, searchMovies);
+
+router.get("/latest-uploads", getLatestUploads);
+router.get("/single/:movieId", getSingleMovie);
+router.get("/related/:movieId", getRelatedMovies);
+router.get("/top-rated", getTopRatedMovies);
+router.get("/search-public", searchPublicMovies);
 
 module.exports = router;
