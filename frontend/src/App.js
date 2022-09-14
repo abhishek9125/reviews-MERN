@@ -18,13 +18,13 @@ function App() {
 	const { authInfo } = useAuth();
 	const isAdmin = authInfo.profile?.role === 'admin';
 
-	// if(isAdmin) {
-	// 	return (
-	// 		<>
-	// 			<AdminNavigator />
-	// 		</>
-	// 	)
-	// }
+	if(isAdmin) {
+		return (
+			<>
+				<AdminNavigator />
+			</>
+		)
+	}
 
 	return (
 		<>
