@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSingleMovie } from "../../api/movie";
 import { useAuth, useNotification } from "../../hooks";
-import { convertReviewCount } from "../../utils/helper";
+// import { convertReviewCount } from "../../utils/helper";
 import Container from "../Container";
 import CustomButtonLink from "../CustomButtonLink";
-import AddRatingModal from "../models/AddRatingModal";
-import ProfileModal from "../models/ProfileModal";
-import RatingStar from "../RatingStar";
-import RelatedMovies from "../RelatedMovies";
+// import AddRatingModal from "../modals/AddRatingModal";
+// import ProfileModal from "../modals/ProfileModal";
+// import RatingStar from "../RatingStar";
+// import RelatedMovies from "../RelatedMovies";
 
 const convertDate = (date = "") => {
 	return date.split("T")[0];
@@ -78,7 +78,7 @@ export default function SingleMovie() {
 		title,
 		storyLine,
 		language,
-		releseDate,
+		releaseDate,
 		type,
 		director = {},
 		reviews = {},
@@ -96,9 +96,10 @@ export default function SingleMovie() {
 						{title}
 					</h1>
 					<div className="flex flex-col items-end">
-						<RatingStar rating={reviews.ratingAvg} />
+						{/* <RatingStar rating={reviews.ratingAvg} /> */}
 						<CustomButtonLink
-							label={convertReviewCount(reviews.reviewCount) + " Reviews"}
+							label={10 + " Reviews"}
+							// label={convertReviewCount(reviews.reviewCount) + " Reviews"}
 							onClick={() => navigate("/movie/reviews/" + id)}
 						/>
 						<CustomButtonLink
@@ -145,7 +146,7 @@ export default function SingleMovie() {
 
 					<ListWithLabel label="Release Date:">
 						<CustomButtonLink
-							label={convertDate(releseDate)}
+							label={convertDate(releaseDate)}
 							clickable={false}
 						/>
 					</ListWithLabel>
@@ -161,11 +162,11 @@ export default function SingleMovie() {
 					</ListWithLabel>
 
 					<CastProfiles cast={cast} />
-					<RelatedMovies movieId={movieId} />
+					{/* <RelatedMovies movieId={movieId} /> */}
 				</div>
 			</Container>
 
-			<ProfileModal
+			{/* <ProfileModal
 				visible={showProfileModal}
 				onClose={hideProfileModal}
 				profileId={selectedProfile.id}
@@ -175,7 +176,7 @@ export default function SingleMovie() {
 				visible={showRatingModal}
 				onClose={hideRatingModal}
 				onSuccess={handleOnRatingSuccess}
-			/>
+			/> */}
 		</div>
 	);
 }

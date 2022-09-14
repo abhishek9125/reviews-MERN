@@ -8,7 +8,7 @@ import SignUp from './components/auth/SignUp'
 import Home from './components/Home'
 import NotFound from './components/NotFound'
 import Navbar from './components/user/Navbar'
-// import SingleMovie from './components/user/SingleMovie'
+import SingleMovie from './components/user/SingleMovie'
 import { useAuth } from './hooks'
 import AdminNavigator from './navigator/AdminNavigator'
 
@@ -35,7 +35,7 @@ function App() {
 				<Route path='/auth/verification' element={<EmailVerification />} />
 				<Route path='/auth/forget-password' element={<ForgetPassword />} />
 				<Route path='/auth/reset-password' element={<ConfirmPassword />} />
-				{/* <Route path="/movie/:movieId" element={<SingleMovie />} /> */}
+				<Route path="/movie/:movieId" element={<SingleMovie />} />
 				{/* <Route path="/movie/reviews/:movieId" element={<MovieReviews />} />
 				<Route path="/movie/search" element={<SearchMovies />} /> */}
 				<Route path='*' element={<NotFound />} />
