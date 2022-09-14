@@ -68,7 +68,7 @@ function MovieUpload({ visible, onClose }) {
         setBusy(false);
         if (error) return updateNotification("error", error);
 
-        updateNotification("success", "Movie upload successfully.");
+        updateNotification("success", "Movie uploaded successfully.");
         resetState();
         onClose();
     }
@@ -107,13 +107,13 @@ const TrailerSelector = ({ visible, handleChange, onTypeError }) => {
     return (
         <div className='h-full flex items-center justify-center'>
             <FileUploader handleChange={handleChange} onTypeError={onTypeError} types={['mp4', 'avi']}>
-                <div
+                <label
                     className='w-48 h-48 border border-dashed dark:border-dark-subtle border-light-subtle rounded-full flex items-center justify-center 
                     flex-col dark:text-dark-subtle text-secondary cursor-pointer'
                 >
                     <AiOutlineCloudUpload size={80} />
                     <p>Drop You File Here!</p>
-                </div>
+                </label>
             </FileUploader>
         </div>
 
