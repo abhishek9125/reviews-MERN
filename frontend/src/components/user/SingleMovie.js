@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSingleMovie } from "../../api/movie";
 import { useAuth, useNotification } from "../../hooks";
-// import { convertReviewCount } from "../../utils/helper";
+import { convertReviewCount } from "../../utils/helper";
 import Container from "../Container";
 import CustomButtonLink from "../CustomButtonLink";
-// import AddRatingModal from "../modals/AddRatingModal";
+import AddRatingModal from "../modals/AddRatingModal";
 // import ProfileModal from "../modals/ProfileModal";
-// import RatingStar from "../RatingStar";
-// import RelatedMovies from "../RelatedMovies";
+import RatingStar from "../RatingStar";
+import RelatedMovies from "../RelatedMovies";
 
 const convertDate = (date = "") => {
 	return date.split("T")[0];
@@ -86,7 +86,6 @@ export default function SingleMovie() {
 		cast = [],
 		genres = [],
 	} = movie;
-
 	return (
 		<div className="dark:bg-primary bg-white min-h-screen pb-10">
 			<Container className="xl:px-0 px-2">
@@ -96,10 +95,9 @@ export default function SingleMovie() {
 						{title}
 					</h1>
 					<div className="flex flex-col items-end">
-						{/* <RatingStar rating={reviews.ratingAvg} /> */}
+						<RatingStar rating={reviews?.ratingAvg} />
 						<CustomButtonLink
-							label={10 + " Reviews"}
-							// label={convertReviewCount(reviews.reviewCount) + " Reviews"}
+							label={convertReviewCount(reviews.reviewCount) + " Reviews"}
 							onClick={() => navigate("/movie/reviews/" + id)}
 						/>
 						<CustomButtonLink
@@ -162,21 +160,21 @@ export default function SingleMovie() {
 					</ListWithLabel>
 
 					<CastProfiles cast={cast} />
-					{/* <RelatedMovies movieId={movieId} /> */}
+					<RelatedMovies movieId={movieId} />
 				</div>
 			</Container>
-
-			{/* <ProfileModal
+{/* 
+			<ProfileModal
 				visible={showProfileModal}
 				onClose={hideProfileModal}
 				profileId={selectedProfile.id}
-			/>
+			/> */}
 
 			<AddRatingModal
 				visible={showRatingModal}
 				onClose={hideRatingModal}
 				onSuccess={handleOnRatingSuccess}
-			/> */}
+			/>
 		</div>
 	);
 }
