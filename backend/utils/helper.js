@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const cloudinary = require('../cloud');
+const Review = require('../models/review');
 
 exports.sendError = (res, error, statusCode = 401) => {
     res.status(statusCode).json({ error })
@@ -109,7 +110,6 @@ exports.topRatedMoviesPipeline = (type) => {
     };
 
     if (type) matchOptions.type = { $eq: type };
-
     return [
         {
             $lookup: {

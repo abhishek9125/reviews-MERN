@@ -1,6 +1,7 @@
 const { sendError, formatActor, averageRatingPipeline, relatedMovieAggregation, getAverageRatings, topRatedMoviesPipeline } = require("../utils/helper");
 const cloudinary = require('../cloud');
 const Movie = require('../models/movie');
+const Review = require('../models/review');
 const { isValidObjectId } = require("mongoose");
 
 exports.uploadTrailer = async (req, res) => {
@@ -415,10 +416,9 @@ exports.getTopRatedMovies = async (req, res) => {
     const { type = "Film" } = req.query;
 
     const movies = await Movie.aggregate(topRatedMoviesPipeline(type));
-
     const mapMovies = async (m) => {
         const reviews = await getAverageRatings(m._id);
-
+        
         return {
             id: m._id,
             title: m.title,
