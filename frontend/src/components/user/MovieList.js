@@ -51,7 +51,7 @@ const ListItem = ({ movie }) => {
 					<AiFillStar />
 				</p>
 			) : (
-				<p className="text-highlight dark:text-highlight-dark">No reviews</p>
+				<p className="text-highlight dark:text-highlight-dark">No Reviews</p>
 			)}
 		</Link>
 	);
