@@ -86,10 +86,11 @@ export default function SingleMovie() {
 		cast = [],
 		genres = [],
 	} = movie;
+	
 	return (
 		<div className="dark:bg-primary bg-white min-h-screen pb-10">
 			<Container className="xl:px-0 px-2">
-				<video poster={poster} controls src={trailer}></video>
+				<video controls src={trailer}></video>
 				<div className="flex justify-between">
 					<h1 className="xl:text-4xl lg:text-3xl text-2xl  text-highlight dark:text-highlight-dark font-semibold py-3">
 						{title}

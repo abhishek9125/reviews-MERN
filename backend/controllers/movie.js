@@ -362,6 +362,7 @@ exports.getSingleMovie = async (req, res) => {
             language,
             type,
             poster: poster?.url,
+            poster_data: poster,
             trailer: trailer?.url,
             cast: cast.map((c) => ({
                 id: c._id,

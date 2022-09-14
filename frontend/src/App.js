@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
+import SearchMovies from './components/user/SearchMovies'
 import ConfirmPassword from './components/auth/ConfirmPassword'
 import EmailVerification from './components/auth/EmailVerification'
 import ForgetPassword from './components/auth/ForgetPassword'
@@ -38,7 +39,7 @@ function App() {
 				<Route path='/auth/reset-password' element={<ConfirmPassword />} />
 				<Route path="/movie/:movieId" element={<SingleMovie />} />
 				<Route path="/movie/reviews/:movieId" element={<MovieReviews />} />
-				{/* <Route path="/movie/search" element={<SearchMovies />} /> */}
+				<Route path="/movie/search" element={<SearchMovies />} />
 				<Route path='*' element={<NotFound />} />
 			</Routes>
 		</>
