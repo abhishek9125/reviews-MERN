@@ -150,7 +150,7 @@ export default function SingleMovie() {
 						/>
 					</ListWithLabel>
 
-					<ListWithLabel label="Cast:">
+					<ListWithLabel label="Genres:">
 						{genres.map((g) => (
 							<CustomButtonLink label={g} key={g} clickable={false} />
 						))}
